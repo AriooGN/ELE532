@@ -34,11 +34,25 @@ f_t = np.exp(-t) * np.cos(2 * np.pi * t)  # defining function
 plot(f_t, t,figsize=(8.0, 4.0), title='f(t) = e^(-t) * cos(2πt) plot', plotLabel='e^(-t) * cos(2πt)', xLabel='t', yLabel='f(t)')
 t = np.linspace(-2, 2, 5)  # 5 points from -2 to 2
 f_t = np.exp(t)
+plt.grid(True) #grid was not showing up until this 
 plot(f_t, t, False, figsize=(8.0, 4.0), title='f(t) = e^(-t) plot', plotLabel='e^(-t)', xLabel='t', yLabel='f(t)')
 
 # Problem B1
 t = np.linspace(-1,2, 1000) #defining 1000 points between -1 and 2 
-f_t = np.heaviside(t, 1) - np.heaviside(t - 1, 1)
-plot(f_t, t, figsize=(8.0, 4.0), title='p(t) = u(t)−u(t −1) over (−1 ≤ t ≤ 2).', plotLabel='u(t)−u(t −1)', xLabel='t', yLabel='p(t)')
+p_t = np.heaviside(t, 1) - np.heaviside(t - 1, 1)
+plot(p_t, t, figsize=(8.0, 4.0), title='p(t) = u(t)−u(t −1) over (−1 ≤ t ≤ 2).', plotLabel='u(t)−u(t −1)', xLabel='t', yLabel='p(t)')
+
+# Problem B2
+# function for r(t) as its used more than once
+def r(t):
+    return t * p_t
+
+r_t = r(t) #defining r_t
+n_t = r(t) + r(-t +2) #defining n_t
+
+# plotting both on the same graph
+plot(r_t,t,figsize=(8.0, 4.0), title='r(t) = tp(t)', plotLabel='r(t) = tp(t)', xLabel='t',yLabel='r(t)')
+plot(n_t,t, newGraph=False, figsize=(8,4), title='r(t) = tp(t) & n(t) =r(t) + r(−t + 2).', plotLabel='n(t) = r(t) + r(−t + 2).', xLabel='t',yLabel='n(t)')
+plt.grid(True) #plot grid wasnt showing up found this solution
 
 plt.show()  # show all the plots (last line)
