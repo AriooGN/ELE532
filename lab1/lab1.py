@@ -1,7 +1,7 @@
 #Lab1 ELE532
 #Arian Fooladray
 #501112069
-
+    
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.io as sci
@@ -23,27 +23,27 @@ def plot(f_t, t, newGraph=True, figsize=(8.0, 4.0), title='', plotLabel='', xLab
 # Problem A.1: Plotting f(t) = e^(-t) * cos(2πt)
 t = np.linspace(-2, 2, 8)
 f_t = np.exp(-t) * np.cos(2 * np.pi * t)
-plot(f_t, t, figsize=(8.0, 4.0), title='f(t) = e^(-t) * cos(2πt) plot', plotLabel='e^(-t) * cos(2πt)', xLabel='t', yLabel='f(t)')
+plot(f_t, t, figsize=(8.0, 4.0), title='A.1', plotLabel='e^(-t) * cos(2πt)', xLabel='t', yLabel='f(t)')
 
 # Problem A.2: Plotting f(t) = e^(-t) and modifying ticks
 t = np.linspace(-2, 2, 5)
 f_t = np.exp(t)
-plot(f_t, t, figsize=(8.0, 4.0), title='f(t) = e^(-t) plot', plotLabel='e^(-t)', xLabel='t', yLabel='f(t)')
+plot(f_t, t, figsize=(8.0, 4.0), title='A.2', plotLabel='e^(-t)', xLabel='t', yLabel='f(t)')
 plt.xticks(np.arange(-2, 2.1, 1))
 
 # Problem A.3: Plotting f(t) = e^(-t) * cos(2πt) and reusing the graph
 t = np.linspace(-2, 2, 8)
 f_t = np.exp(-t) * np.cos(2 * np.pi * t)
-plot(f_t, t, figsize=(8.0, 4.0), title='f(t) = e^(-t) * cos(2πt) plot', plotLabel='e^(-t) * cos(2πt)', xLabel='t', yLabel='f(t)')
+plot(f_t, t, figsize=(8.0, 4.0), title='A.3', plotLabel='e^(-t) * cos(2πt)', xLabel='t', yLabel='f(t)')
 
 t = np.linspace(-2, 2, 5)
 f_t = np.exp(t)
-plot(f_t, t, newGraph=False, figsize=(8.0, 4.0), title='f(t) = e^(-t) plot', plotLabel='e^(-t)', xLabel='t', yLabel='f(t)')
+plot(f_t, t, newGraph=False, figsize=(8.0, 4.0), title='A.3', plotLabel='e^(-t)', xLabel='t', yLabel='f(t)')
 
 # Problem B.1: Plotting p(t) = u(t) - u(t - 1)
 t = np.linspace(-1, 2, 1000)
 p_t = np.heaviside(t, 1) - np.heaviside(t - 1, 1)
-plot(p_t, t, figsize=(8.0, 4.0), title='p(t) = u(t)−u(t −1) over (−1 ≤ t ≤ 2).', plotLabel='u(t)−u(t −1)', xLabel='t', yLabel='p(t)')
+plot(p_t, t, figsize=(8.0, 4.0), title='B.1 (p(t) = u(t)−u(t −1) over (−1 ≤ t ≤ 2))', plotLabel='u(t)−u(t −1)', xLabel='t', yLabel='p(t)')
 
 # Problem B.2: Plotting r(t) = tp(t) and n(t) = r(t) + r(-t + 2)
 def r(t):
@@ -61,7 +61,7 @@ plot(n_t, t, newGraph=False, figsize=(8, 4), title='r(t) = tp(t) & n(t) =r(t) + 
 # Problem B.3: Plotting n1(t) and n2(t)
 t = np.linspace(-1, 1, 1000)  # Adjust the time values for n1 and n2
 n1_t = n(0.5 * t)
-plot(n1_t, t, figsize=(8.0, 4.0), title='n1(t) = n(1/2 t)', plotLabel='n1(t) = n(1/2 t)', xLabel='t', yLabel='n1(t)')
+plot(n1_t, t, figsize=(8.0, 4.0), title='B.3/B.4', plotLabel='n1(t) = n(1/2 t)', xLabel='t', yLabel='n1(t)')
 t = t + (1/2)
 n2_t = n(0.5 * (t))  # Adjust the time values for n2
 # Plotting n1 and n2
@@ -80,7 +80,7 @@ t = np.linspace(-2, 2, 1000)
 f_t = np.exp(-2 * t) * np.cos(4 * np.pi * t)
 u_t = np.heaviside(t, 1)
 g_t = u_t * f_t
-plot(g_t,t, title='C.1 (f(t) = e^-2tcos(4PI*T))', plotLabel= "g_t = u_t * f_t", xLabel='t', yLabel='g(t)')
+plot(g_t,t, title='C.1 (f(t) = e^-2tcos(4πT))', plotLabel= "g_t = u_t * f_t", xLabel='t', yLabel='g(t)')
 
 # Problem C.2: Plotting g(t) = u(t) * f(t) with time shift
 t = np.linspace(-2, 4, 600)
