@@ -25,6 +25,10 @@ t = np.linspace(-2, 2, 8)
 f_t = np.exp(-t) * np.cos(2 * np.pi * t)
 plot(f_t, t, figsize=(8.0, 4.0), title='A.1', plotLabel='e^(-t) * cos(2πt)', xLabel='t', yLabel='f(t)')
 
+t = np.linspace(-2, 2, 400)  # -2:0.1:2
+f_t = np.exp(-t) * np.cos(2 * np.pi * t)  # defining function
+plot(f_t, t, figsize=(8.0, 4.0), title='A.1', plotLabel='e^(-t) * cos(2πt)', xLabel='t', yLabel='f(t)')
+
 # Problem A.2: Plotting f(t) = e^(-t) and modifying ticks
 t = np.linspace(-2, 2, 5)
 f_t = np.exp(t)
@@ -55,7 +59,7 @@ def n(t):
 r_t = r(t)
 n_t = n(t)
 
-plot(r_t, t, figsize=(8.0, 4.0), title='r(t) = tp(t)', plotLabel='r(t) = tp(t)', xLabel='t', yLabel='r(t)')
+plot(r_t, t, figsize=(8.0, 4.0), title='B.2 (r(t) = tp(t))', plotLabel='r(t) = tp(t)', xLabel='t', yLabel='r(t)')
 plot(n_t, t, newGraph=False, figsize=(8, 4), title='r(t) = tp(t) & n(t) =r(t) + r(−t + 2).', plotLabel='n(t) = r(t) + r(−t + 2).', xLabel='t', yLabel='n(t)')
 
 # Problem B.3: Plotting n1(t) and n2(t)
@@ -167,8 +171,7 @@ print("\nnested time: " + str(nestedTime) + "\npython time:" + str(pythonTime))
 working_array = np.copy(array_x_audio)
 
 # Define the threshold for compression
-threshold = 0.01
-
+threshold = 0.1
 # Initialize a counter for zero-valued samples
 zero_samples_count = 0
 
@@ -191,4 +194,3 @@ sd.wait()
 
 # Show all the plots
 plt.show()
-# End of the code
