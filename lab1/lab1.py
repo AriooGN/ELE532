@@ -1,7 +1,7 @@
 #Lab1 ELE532
 #Arian Fooladray
 #501112069
-    
+
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.io as sci
@@ -27,7 +27,7 @@ plot(f_t, t, figsize=(8.0, 4.0), title='A.1', plotLabel='e^(-t) * cos(2πt)', xL
 
 t = np.linspace(-2, 2, 400)  # -2:0.1:2
 f_t = np.exp(-t) * np.cos(2 * np.pi * t)  # defining function
-plot(f_t, t, figsize=(8.0, 4.0), title='A.1', plotLabel='e^(-t) * cos(2πt)', xLabel='t', yLabel='f(t)')
+plot(f_t, t, figsize=(8.0, 4.0), newGraph=False, title='A.1', plotLabel='e^(-t) * cos(2πt) (-2:0.1:2)', xLabel='t', yLabel='f(t)')
 
 # Problem A.2: Plotting f(t) = e^(-t) and modifying ticks
 t = np.linspace(-2, 2, 5)
@@ -45,11 +45,12 @@ f_t = np.exp(t)
 plot(f_t, t, newGraph=False, figsize=(8.0, 4.0), title='A.3', plotLabel='e^(-t)', xLabel='t', yLabel='f(t)')
 
 # Problem B.1: Plotting p(t) = u(t) - u(t - 1)
-t = np.linspace(-1, 2, 1000)
+t = np.arange(-1,2,0.01)
 p_t = np.heaviside(t, 1) - np.heaviside(t - 1, 1)
 plot(p_t, t, figsize=(8.0, 4.0), title='B.1 (p(t) = u(t)−u(t −1) over (−1 ≤ t ≤ 2))', plotLabel='u(t)−u(t −1)', xLabel='t', yLabel='p(t)')
 
 # Problem B.2: Plotting r(t) = tp(t) and n(t) = r(t) + r(-t + 2)
+t = np.arange(-1,2,0.01)
 def r(t):
     return t * p_t
 
@@ -59,25 +60,25 @@ def n(t):
 r_t = r(t)
 n_t = n(t)
 
-plot(r_t, t, figsize=(8.0, 4.0), title='B.2 (r(t) = tp(t))', plotLabel='r(t) = tp(t)', xLabel='t', yLabel='r(t)')
-plot(n_t, t, newGraph=False, figsize=(8, 4), title='r(t) = tp(t) & n(t) =r(t) + r(−t + 2).', plotLabel='n(t) = r(t) + r(−t + 2).', xLabel='t', yLabel='n(t)')
+plot(r_t, t, figsize=(8.0, 4.0), title='B.2', plotLabel='r(t) = tp(t)', xLabel='t', yLabel='r(t)')
+plot(n_t, t, newGraph=False, figsize=(8, 4), title='B.2', plotLabel='n(t) = r(t) + r(−t + 2).', xLabel='t', yLabel='n(t)')
 
 # Problem B.3: Plotting n1(t) and n2(t)
-t = np.linspace(-1, 1, 1000)  # Adjust the time values for n1 and n2
+t = np.arange(-1,2,0.01)
 n1_t = n(0.5 * t)
-plot(n1_t, t, figsize=(8.0, 4.0), title='B.3/B.4', plotLabel='n1(t) = n(1/2 t)', xLabel='t', yLabel='n1(t)')
+plot(n1_t, t, figsize=(8.0, 4.0), title='B.3', plotLabel='n1(t) = n(1/2 t)', xLabel='t', yLabel='n1(t)')
 t = t + (1/2)
 n2_t = n(0.5 * (t))  # Adjust the time values for n2
 # Plotting n1 and n2
-plot(n2_t, t, newGraph=False, figsize=(8.0, 4.0), title='n2(t) = n1(t + 1/2)', plotLabel='n2(t) = n1(t + 1/2)', xLabel='t', yLabel='n2(t)')
+plot(n2_t, t, newGraph=False, figsize=(8.0, 4.0), title='B.3', plotLabel='n2(t) = n1(t + 1/2)', xLabel='t', yLabel='n1(t)/n2(t)')
 
 # Problem B.4: Plotting n3(t) and n4(t)
-t = np.linspace(-1, 1, 1000)
+t = np.arange(-1,2,0.01)
 n3_t = n(t + 1/4)
-plot(n3_t, t, newGraph=False, title='n3(t) = n(t+1/4)', plotLabel='n3(t) = n(t + 1/4)', xLabel='t', yLabel='n3(t)')
+plot(n3_t, t, title='B.4', plotLabel='n3(t) = n(t + 1/4)', xLabel='t', yLabel='n3(t)')
 t = t + 1/4
 n4_t = n(1/2*(t))
-plot(n4_t, t, newGraph=False, figsize=(8.0, 4.0), title='n3(t) = n(t+1/4),n4(t) = n3(1/2 t)', plotLabel='n4(t) = n3(1/2 t)', xLabel='t', yLabel='n4(t),n3(t)')
+plot(n4_t, t, newGraph=False, figsize=(8.0, 4.0), title='B.4', plotLabel='n4(t) = n3(1/2 t)', xLabel='t', yLabel='n4(t),n3(t)')
 
 # Problem C.1: Plotting g(t) = u(t) * f(t)
 t = np.linspace(-2, 2, 1000)
@@ -164,14 +165,14 @@ B[B < 0.01] = 0
 end = time.time()
 pythonTime = end - start
 
-print("\nnested time: " + str(nestedTime) + "\npython time:" + str(pythonTime))
+print("\nnested time: " + str(nestedTime) + "\npython time: " + str(pythonTime))
 
 # D.3: Audio processing
 # Copy the data to a working array
 working_array = np.copy(array_x_audio)
 
 # Define the threshold for compression
-threshold = 0.1
+threshold = 0.01
 # Initialize a counter for zero-valued samples
 zero_samples_count = 0
 
