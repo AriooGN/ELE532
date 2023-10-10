@@ -25,8 +25,8 @@ for t = tvec,
     xlabel("t"); ylabel("y(t) = \int h(\tau)x(t-\tau) d\tau");
     axis([tau(1) tau(end) -1.0 2.0]); grid;
     
-    if abs(t - 2.25) < 0.01 % Check if t is close to 2.25
-        pause; % Pause at t = 2.25
+    if abs(t - 3) < 0.01 % Check if t is close to 2.25
+        break;
     else
         pause(0.1); % Pause for other time points
     end

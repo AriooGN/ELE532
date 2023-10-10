@@ -61,7 +61,6 @@ h = lambda t: (C[0] * np.exp(lambda_values[0] * t) + C[1] * np.exp(lambda_values
 
 # Plot h(t)
 plot(h(t), t, title='Problem A: Characteristic Response', plotLabel='h(t)', xLabel='Time [s]', yLabel='Amplitude')
-plt.show()
 
 # Problem A.3   
 
@@ -79,13 +78,54 @@ lambda_ = CH2MP2([1e4, 1e4, 1e4],[1e-9, 1e-6])
 # Part B (B.1, B.2, B.3)
 
 # Problem B.1
+"""
 script_path = 'C:\\Users\\arian\\OneDrive\\Documents\\SimRacing\\ELE532\\lab2\\CH2MP4.m'
 eng = matlab.engine.start_matlab()
 eng.eval(f"run('{script_path}')", nargout=0)
-
+input()
 eng.quit()
+print("eng.quit")
+"""
+# Problem B.2
+
+# Define the functions x(t) and h(t)
+x = lambda t: np.heaviside(t , 1) - np.heaviside(t - 2, 1)
+h = lambda t: (t+1) * (np.heaviside(t + 1, 1) - np.heaviside(t, 1))
+
+# Define the time vector
+t = np.arange(-2, 5, 0.01)
+
+x_t = x(t)
+h_t = h(t)
+
+y_t = np.convolve(x_t, h_t, 'same') * 0.01
+
+plt.figure(figsize=(6, 12))
+
+# Subplot for x(t)
+plt.subplot(3,1,1)
+plt.plot(t, x(t), label='x(t)')
+plt.title('x(t)')
+plt.xlabel('Time')
+plt.ylabel('Amplitude')
+plt.grid(True)
+
+# Subplot for h(t)
+plt.subplot(3,1,2)
+plt.plot(t, h(t), label='h(t)')
+plt.title('h(t)')
+plt.xlabel('Time')
+plt.ylabel('Amplitude')
+plt.grid(True)
+
+# Subplot for y(t)
+plt.subplot(3, 1, 3)
+plt.plot(t, y_t)
+plt.title('y(t)')
+plt.xlabel('Time')
+plt.ylabel('Amplitude')
+
+plt.subplots_adjust(hspace=0.5)
 
 
-
-# Show all of the plots
 plt.show()
