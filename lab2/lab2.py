@@ -124,8 +124,125 @@ plt.plot(t, y_t)
 plt.title('y(t)')
 plt.xlabel('Time')
 plt.ylabel('Amplitude')
+plt.grid(True)
 
 plt.subplots_adjust(hspace=0.5)
 
+# Problem B.3
+
+    #part a)
+x1 = lambda t: (np.heaviside(t - 4, 0.5) - np.heaviside(t - 6, 0.5))
+x2 = lambda t: (np.heaviside(t + 5, 0.5) - np.heaviside(t + 4, 0.5))
+t = np.linspace(-10, 10, 1000)
+
+x1_t = x1(t)
+x2_t = x2(t)
+
+convolution = np.convolve(x1_t, x2_t, 'same') * (t[1]-t[0])  # Multiply by dt for integration
+
+plt.figure(figsize=(6, 12))
+
+
+# Subplot for x1(t)
+plt.subplot(3, 1, 1)
+plt.plot(t, x1_t)
+plt.title('x1(t)')
+plt.xlabel('Time')
+plt.ylabel('Amplitude')
+plt.grid(True)
+
+# Subplot for x2(t)
+plt.subplot(3, 1, 2)
+plt.plot(t, x2_t)
+plt.title('x2(t)')
+plt.xlabel('Time')
+plt.ylabel('Amplitude')
+plt.grid(True)
+
+# Subplot for convolution
+plt.subplot(3, 1, 3)
+plt.plot(t, convolution)
+plt.title('Convolution of x1(t) and x2(t)')
+plt.xlabel('Time')
+plt.ylabel('Amplitude')
+plt.grid(True)
+
+plt.subplots_adjust(hspace=0.5)
+
+    #part b)
+x1 = lambda t: (np.heaviside(t - 3, 0.5) - np.heaviside(t - 5, 0.5))
+x2 = lambda t: (np.heaviside(t + 5, 0.5) - np.heaviside(t + 3, 0.5))
+
+t = np.linspace(-10, 10, 1000)
+
+x1_t = x1(t)
+x2_t = x2(t)
+
+convolution = np.convolve(x1_t, x2_t, 'same') * (t[1]-t[0])  # Multiply by dt for integration
+
+plt.figure(figsize=(6, 12))
+
+# Subplot for x1(t)
+plt.subplot(3, 1, 1)
+plt.plot(t, x1_t)
+plt.title('x1(t)')
+plt.xlabel('Time')
+plt.ylabel('Amplitude')
+plt.grid(True)
+
+# Subplot for x2(t)
+plt.subplot(3, 1, 2)
+plt.plot(t, x2_t)
+plt.title('x2(t)')
+plt.xlabel('Time')
+plt.ylabel('Amplitude')
+plt.grid(True)
+
+# Subplot for convolution
+plt.subplot(3, 1, 3)
+plt.plot(t, convolution)
+plt.title('Convolution of x1(t) and x2(t)')
+plt.xlabel('Time')
+plt.ylabel('Amplitude')
+plt.grid(True)
+plt.subplots_adjust(hspace=0.5)
+
+    #part h)
+x1 = lambda t: np.exp(t) * (np.heaviside(t + 2, 0.5) - np.heaviside(t, 0.5))
+x2 = lambda t: np.exp(-2 * t) * (np.heaviside(t, 0.5) - np.heaviside(t - 1, 0.5))
+
+t = np.linspace(-4, 3, 1000)  # Extended range to capture the essence of both functions
+
+x1_t = x1(t)
+x2_t = x2(t)
+
+convolution = np.convolve(x1_t, x2_t, 'same') * (t[1]-t[0])  # Multiply by dt for integration
+
+plt.figure(figsize=(6, 12))
+
+# Subplot for x1(t)
+plt.subplot(3, 1, 1)
+plt.plot(t, x1_t)
+plt.title('x1(t)')
+plt.xlabel('Time')
+plt.ylabel('Amplitude')
+plt.grid(True)
+
+# Subplot for x2(t)
+plt.subplot(3, 1, 2)
+plt.plot(t, x2_t)
+plt.title('x2(t)')
+plt.xlabel('Time')
+plt.ylabel('Amplitude')
+plt.grid(True)
+
+# Subplot for convolution
+plt.subplot(3, 1, 3)
+plt.plot(t, convolution)
+plt.title('Convolution of x1(t) and x2(t)')
+plt.xlabel('Time')
+plt.ylabel('Amplitude')
+plt.grid(True)
+plt.subplots_adjust(hspace=0.5)
 
 plt.show()
