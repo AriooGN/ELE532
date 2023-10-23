@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matlab.engine
 from scipy.signal import lti, step
+import sympy as sp
 
 def plot(f_t, t, title=None, plotLabel=None, xLabel=None, yLabel=None, newGraph=True, figsize=(8.0, 4.0)):
     """
@@ -38,29 +39,43 @@ def plot(f_t, t, title=None, plotLabel=None, xLabel=None, yLabel=None, newGraph=
 
 # Part A (A.1, A.2, A.3)
 
-# Problem A.1
-# Define component values
-R = [1e4, 1e4, 1e4]
-C = [1e-6, 1e-6]
 
-# Determine the coefficients for the characteristic equation
-A1 = [1, (1/R[0] + 1/R[1] + 1/R[2]) / C[1], 1 / (R[0] * R[1] * C[0] * C[1])]
+# A.1: Determine characteristic roots of op-amp circuit
+# Set component values
+R = np.array([1e4, 1e4, 1e4])
+C = np.array([1e-6, 1e-6])
+C2 = np.array([1e-9, 1e-6])
+
+# Determine coefficients for characteristic equation
+A = [1, (1/R[0] + 1/R[1] + 1/R[2]) / C[1], 1 / (R[0] * R[1] * C[0] * C[1])]
+A2 = [1, (1/R[0] + 1/R[1] + 1/R[2]) / C2[1], 1 / (R[0] * R[1] * C2[0] * C2[1])]
 
 # Determine characteristic roots
-lambda_values = np.roots(A1)
+lambda_values = np.roots(A)
+lambda_values2 = np.roots(A2)
 
-# Problem A.2
-# Define time vector
-t = np.arange(0, 0.1, 0.0005)
+# Calculate polynomial with roots as lambda_values
+p = np.poly([lambda_values[0], lambda_values[1]])
 
-# Define unit step function u(t)
-u = lambda t: 1.0 * (t >= 0)
+# A.2: Impulse Response
+# Define symbolic variables
+t = sp.Symbol('t', real=True)
+y = sp.Function('y')(t)
 
-# Define h(t) using the characteristic roots
-h = lambda t: (C[0] * np.exp(lambda_values[0] * t) + C[1] * np.exp(lambda_values[1] * t)) * (u(t))
+# Define the differential equation and initial conditions
+eqn = sp.diff(y, t, 2) + 300*sp.diff(y, t) + 10000*y
+cond = {y.subs(t, 0): 0, sp.diff(y, t).subs(t, 0): 1}
 
-# Plot h(t)
-plot(h(t), t, title='Problem A: Characteristic Response', plotLabel='h(t)', xLabel='Time [s]', yLabel='Amplitude')
+# Solve the differential equation
+sol = sp.dsolve(eqn, ics=cond)
+h = -1/(R[0] * R[2] * C[0] * C[1]) * sol.rhs
+
+# Generate time and h(t) values for plotting
+time_values = np.linspace(0, 0.1, 200)
+h_values = [float(h.subs(t, val)) for val in time_values]
+
+# Use the plot function to plot the impulse response h(t) with the calculated coefficients A and B
+plot(h_values, time_values, title='A.2', xLabel='Time [s]', yLabel='h(t)')
 
 # Problem A.3   
 
@@ -74,7 +89,7 @@ def CH2MP2(R, C):
     return roots
 
 lambda_ = CH2MP2([1e4, 1e4, 1e4],[1e-9, 1e-6])
-
+print("A.3 Lambda: ", lambda_)
 # Part B (B.1, B.2, B.3)
 
 # Problem B.1
@@ -244,5 +259,51 @@ plt.xlabel('Time')
 plt.ylabel('Amplitude')
 plt.grid(True)
 plt.subplots_adjust(hspace=0.5)
+
+# Part C (C.1,C.2,C.3)
+
+# Define the time range
+t = np.arange(-1, 5, 0.001)
+
+# Define the impulse response functions h(t) for each system
+h1_t = np.exp(t) * np.heaviside(t, 0)
+h2_t = 4 * np.exp(-t) * np.heaviside(t, 0)
+h3_t = 4 * np.exp(-t) * np.heaviside(t, 0)
+h4_t = 4 * (np.exp(-t / 5) - np.exp(-t)) * np.heaviside(t, 0)
+
+# Plot the impulse response functions
+plt.figure(figsize=(10, 8))
+
+plt.subplot(4, 1, 1)
+plt.plot(t, h1_t)
+plt.title('System S1: Impulse Response h1(t)')
+plt.grid(True)
+
+plt.subplot(4, 1, 2)
+plt.plot(t, h2_t)
+plt.title('System S2: Impulse Response h2(t)')
+plt.grid(True)
+
+plt.subplot(4, 1, 3)
+plt.plot(t, h3_t)
+plt.title('System S3: Impulse Response h3(t)')
+plt.grid(True)
+
+plt.subplot(4, 1, 4)
+plt.plot(t, h4_t)
+plt.title('System S4: Impulse Response h4(t)')
+plt.grid(True)
+
+plt.subplots_adjust(hspace=0.5)
+
+#part c
+script_path = 'C:\\Users\\arian\\OneDrive\\Documents\\SimRacing\\ELE532\\lab2\\Partc.m'
+eng = matlab.engine.start_matlab()
+eng.eval(f"run('{script_path}')", nargout=0)
+input()
+eng.quit()
+print("eng.quit")
+
+
 
 plt.show()
