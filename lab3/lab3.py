@@ -15,15 +15,18 @@ def Dn(x, n):
 
     n_array = np.array(n)
     Dn_array = np.zeros_like(n_array, dtype=complex)
-
+    
     if x == 0:
         # Define x_1(t) as a lambda function
         x_1 = lambda t: np.cos(3 * np.pi / 10 * t) + 0.5 * np.cos(np.pi / 10 * t)
-
+        n_1 = np.array(n)
+        n_1 -= 1
         # Perform the integral for each n
-        for i, n_val in enumerate(n):
+        for i, n_val in enumerate(n_1):
             integral_result, _ = quad(lambda t: x_1(t) * cmath.exp(-1j * w0_1 * t * n_val).real, 0, t0_1)
+
             Dn_array[i] = integral_result / t0_1
+
         return Dn_array
 
     elif x == 1 or x == 2:
@@ -39,6 +42,7 @@ def Dn(x, n):
         # Handle the case when n = 0 (replace with the correct value if needed)
         Dn_array[np.isnan(Dn_array)] = 0  # Replace nan with 0
         return Dn_array
+
 def plot_spectra(D_n, n_range, title):
     plt.figure(figsize=(12, 5))
     
@@ -73,3 +77,46 @@ for i in range(0, 4):
             title = f'x{j+1} ({n[0]} ≤ n ≤ {n[-1]})'
             plot_spectra(Dn_x, n, title)
 
+# Part A.5
+def reconstruct_signal(Dn, n_range, t):
+    w0 = 2 * np.pi / 20  # Assuming T0 is 20 for x1(t), adjust as needed for other signals
+    x_reconstructed = np.zeros_like(t, dtype=complex)
+    
+    for n, D in zip(n_range, Dn):
+        x_reconstructed += D * np.exp(1j * n * w0 * t)
+    
+    return x_reconstructed.real
+
+
+# Part A.6
+
+def reconstruct_signal(Dn, n_range, t):
+    w0 = 2 * np.pi / 20  # Assuming T0 is 20 for x1(t), adjust as needed for other signals
+    x_reconstructed = np.zeros_like(t, dtype=complex)
+    
+    for n, D in zip(n_range, Dn):
+        x_reconstructed += D * np.exp(1j * n * w0 * t)
+    
+    return x_reconstructed.real
+
+# Define the time vector for reconstruction
+t = np.arange(-300, 301)  # t from -300 to 300
+
+# Reconstruct and plot signals for different ranges of n
+for i, n_range in enumerate(ranges):
+    plt.figure(figsize=(14, 8))
+    
+    for j in range(3):
+        Dn_x = Dn(j, n_range)
+        if Dn_x is not None:
+            x_reconstructed = reconstruct_signal(Dn_x, n_range, t)
+            plt.subplot(3, 1, j+1)
+            plt.plot(t, x_reconstructed, label=f'x{j+1}(t) Reconstructed')
+            plt.xlabel('t (sec)')
+            plt.ylabel(f'x{j+1}(t)')
+            plt.title(f'Reconstructed x{j+1}(t) from Fourier Coefficients (n={n_range[0]} to {n_range[-1]})')
+            plt.grid()
+            plt.legend()
+    
+    plt.tight_layout()
+    plt.show()
