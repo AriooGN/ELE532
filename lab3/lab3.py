@@ -61,7 +61,7 @@ def plot_spectra(D_n, n_range, title):
     plt.title(f'Phase Spectrum of {title}')
     
     plt.tight_layout()
-    plt.show()
+
 
 # Part A.4
 ranges = [list(range(-5, 6)), list(range(-20, 21)), list(range(-50, 51)), list(range(-500, 501))]
@@ -82,7 +82,7 @@ def reconstruct_signal(Dn, n_range, t):
     w0 = 2 * np.pi / 20  # Assuming T0 is 20 for x1(t), adjust as needed for other signals
     x_reconstructed = np.zeros_like(t, dtype=complex)
     
-    for n, D in zip(n_range, Dn):
+    for n, D in zip(n_range, Dn):   
         x_reconstructed += D * np.exp(1j * n * w0 * t)
     
     return x_reconstructed.real
@@ -110,6 +110,7 @@ for i, n_range in enumerate(ranges):
         Dn_x = Dn(j, n_range)
         if Dn_x is not None:
             x_reconstructed = reconstruct_signal(Dn_x, n_range, t)
+            print(x_reconstructed)
             plt.subplot(3, 1, j+1)
             plt.plot(t, x_reconstructed, label=f'x{j+1}(t) Reconstructed')
             plt.xlabel('t (sec)')
@@ -119,4 +120,7 @@ for i, n_range in enumerate(ranges):
             plt.legend()
     
     plt.tight_layout()
-    plt.show()
+
+
+
+plt.show()
