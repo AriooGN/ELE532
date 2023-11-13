@@ -17,15 +17,10 @@ def Dn(x, n):
     Dn_array = np.zeros_like(n_array, dtype=complex)
     
     if x == 0:
-        # Define x_1(t) as a lambda function
-        x_1 = lambda t: np.cos(3 * np.pi / 10 * t) + 0.5 * np.cos(np.pi / 10 * t)
-        n_1 = np.array(n)
-        n_1 -= 1
-        # Perform the integral for each n
-        for i, n_val in enumerate(n_1):
-            integral_result, _ = quad(lambda t: x_1(t) * cmath.exp(-1j * w0_1 * t * n_val).real, 0, t0_1)
-
-            Dn_array[i] = integral_result / t0_1
+        Dn_array[n_array == 1] = 1/4
+        Dn_array[n_array == -1] = 1/4
+        Dn_array[n_array == 3] = 1/2
+        Dn_array[n_array == -3] = 1/2
 
         return Dn_array
 
@@ -66,16 +61,16 @@ def plot_spectra(D_n, n_range, title):
 # Part A.4
 ranges = [list(range(-5, 6)), list(range(-20, 21)), list(range(-50, 51)), list(range(-500, 501))]
 int_to_letter = {0: 'a', 1: 'b', 2: 'c', 3: 'd'}
-
+    
 for i in range(0, 4):
     currentRange = ranges[i]
     for j in range(0, 3):
         Dn_x = Dn(j, currentRange)
         if Dn_x is not None:
             n = np.array(currentRange)
-            #title = f'x' + str(j+1) + ' (' + str(n[0]) +' ≤ n ≤ ' + str(n[-1]) + ')'
             title = f'x{j+1} ({n[0]} ≤ n ≤ {n[-1]})'
             plot_spectra(Dn_x, n, title)
+            plt.show()
 
 # Part A.5
 def reconstruct_signal(Dn, n_range, t):
@@ -118,9 +113,9 @@ for i, n_range in enumerate(ranges):
             plt.title(f'Reconstructed x{j+1}(t) from Fourier Coefficients (n={n_range[0]} to {n_range[-1]})')
             plt.grid()
             plt.legend()
+            plt.show()
     
     plt.tight_layout()
 
 
 
-plt.show()
