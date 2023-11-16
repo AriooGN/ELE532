@@ -61,7 +61,7 @@ def plot_spectra(D_n, n_range, title):
 # Part A.4
 ranges = [list(range(-5, 6)), list(range(-20, 21)), list(range(-50, 51)), list(range(-500, 501))]
 int_to_letter = {0: 'a', 1: 'b', 2: 'c', 3: 'd'}
-    
+'''
 for i in range(0, 4):
     currentRange = ranges[i]
     for j in range(0, 3):
@@ -70,11 +70,11 @@ for i in range(0, 4):
             n = np.array(currentRange)
             title = f'x{j+1} ({n[0]} ≤ n ≤ {n[-1]})'
             plot_spectra(Dn_x, n, title)
-            plt.show()
-
+            #plt.show()
+'''
 # Part A.5
-def reconstruct_signal(Dn, n_range, t):
-    w0 = 2 * np.pi / 20  # Assuming T0 is 20 for x1(t), adjust as needed for other signals
+def reconstruct_signal(Dn, n_range, t, T):
+    w0 = 2 * np.pi / T  
     x_reconstructed = np.zeros_like(t, dtype=complex)
     
     for n, D in zip(n_range, Dn):   
@@ -82,18 +82,7 @@ def reconstruct_signal(Dn, n_range, t):
     
     return x_reconstructed.real
 
-
 # Part A.6
-
-def reconstruct_signal(Dn, n_range, t):
-    w0 = 2 * np.pi / 20  # Assuming T0 is 20 for x1(t), adjust as needed for other signals
-    x_reconstructed = np.zeros_like(t, dtype=complex)
-    
-    for n, D in zip(n_range, Dn):
-        x_reconstructed += D * np.exp(1j * n * w0 * t)
-    
-    return x_reconstructed.real
-
 # Define the time vector for reconstruction
 t = np.arange(-300, 301)  # t from -300 to 300
 
@@ -104,7 +93,7 @@ for i, n_range in enumerate(ranges):
     for j in range(3):
         Dn_x = Dn(j, n_range)
         if Dn_x is not None:
-            x_reconstructed = reconstruct_signal(Dn_x, n_range, t)
+            x_reconstructed = reconstruct_signal(Dn_x, n_range, t, 40)
             print(x_reconstructed)
             plt.subplot(3, 1, j+1)
             plt.plot(t, x_reconstructed, label=f'x{j+1}(t) Reconstructed')
@@ -113,9 +102,10 @@ for i, n_range in enumerate(ranges):
             plt.title(f'Reconstructed x{j+1}(t) from Fourier Coefficients (n={n_range[0]} to {n_range[-1]})')
             plt.grid()
             plt.legend()
-            plt.show()
+            
     
     plt.tight_layout()
+    plt.show()
 
 
 
