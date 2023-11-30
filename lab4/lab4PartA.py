@@ -101,4 +101,3 @@ plot_signal(t, z_w_ifft, 'z(t) -> ifft', 'Time', 'Amplitude', subplot_position=2
 plt.tight_layout()
 
 plt.show()
-
