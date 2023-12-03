@@ -20,7 +20,6 @@ hChannel = np.squeeze(mat_data['hChannel'])
 Fs = mat_data['Fs'].item() 
 
 
-
 # Analyzing HChannel
 # Impulse Response
 plt.figure()
@@ -92,10 +91,11 @@ plt.savefig("lab4\Coding\Coder_Filtered_Signal.png")
 # Shifting
 shift_frequency = 5000  # Frequency shift in Hz
 t = np.arange(len(xspeech_filtered)) / Fs
+print(t)
 xspeech_shifted = xspeech_filtered * np.exp(2j * np.pi * shift_frequency * t)
 MagSpect(xspeech_shifted)
 plt.title("Magnitude Spectrum of Shifted Signal")
-plt.savefig("lab4\Coding\Coder_Filtered_Signal.png")
+plt.savefig("lab4\Coding\Coder_Shifted_Signal.png")
 
 # Transmitting
 transmitted_signal = np.convolve(xspeech_shifted, hChannel, mode='same')
@@ -123,7 +123,7 @@ plt.savefig("lab4\Decoding\output_signal_filtered.png")
 
 recovered_signal_normalized = recovered_signal_filtered / np.max(np.abs(recovered_signal_filtered))
 MagSpect(recovered_signal_normalized)
-plt.title("Magnitude Spectrum of Post-Filtered Signal")
+plt.title("Magnitude Spectrum of Post-Normalized Signal")
 plt.savefig("lab4\Decoding\output_signal_normalized.png")
 
 print('Playing 1st Audio')
@@ -133,8 +133,3 @@ sd.wait()
 print('Playing 2nd Audio')
 sd.play(np.real(recovered_signal_normalized),Fs)
 sd.wait()
-
-
-
-
-
